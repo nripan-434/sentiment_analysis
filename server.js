@@ -18,9 +18,16 @@ app.post('/analyse',async(req,res)=>{
             model:'cardiffnlp/twitter-roberta-base-sentiment-latest',
             inputs:text
         })
-        res.json({result})
-        const dominantSentiment=result.sort((a,b)=>{
-            return (b.score-a.score)[0]
+        // res.json({result})
+        let highest = 0
+        let index;
+        result.forEach((x,i)=>{
+            if(x.score>highest){
+                highest=x.score*100
+                index=i
+            }
         })
+        res.json({score:highest,label:result[index].label})
+
 
 })
