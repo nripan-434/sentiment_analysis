@@ -14,6 +14,9 @@ app.listen(process.env.PORT,()=>{
 const client =new InferenceClient(process.env.API_TOKEN)
 app.post('/analyse',async(req,res)=>{
     const {text}=req.body
+    if(!text){
+        return res.json({message:'no text detected'})
+    }
         const result = await client.textClassification({
             model:'cardiffnlp/twitter-roberta-base-sentiment-latest',
             inputs:text
